@@ -1,0 +1,78 @@
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead" style="display: flex; align-items: center;">
+      <h2 style="margin: 0 15px 0 0;">报名管理</h2>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in" id="one">
+        <div class="widget-body no-padding">
+          <!-- table start -->
+          <form class="layui-form" id="admin">
+            <table id="table" class="table table-striped table-bordered table-hover" width="100%">
+              <colgroup>
+                <col width="42">
+                <!-- <col width="60"> -->
+                <col width="50">
+                <col width="150">
+                <col width="270">
+                <col width="70">
+                <col width="80">
+                <col width="70">
+                <col width="70">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="center"><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                  <!-- <th>活动ID</th> -->
+                  <th>头像</th>
+                  <th>昵称</th>
+                  <th>链接</th>
+                  <th>点赞</th>
+                  <th>状态</th>
+                  <th>报名时间</th>
+                  <th>操作</th>
+                </tr> 
+              </thead>
+              <tbody>
+                {volist name="res" id="vo"}
+                <tr>
+                  <td class="center"><input type="checkbox" name="ids[]" value="{$vo.id}" lay-skin="primary"></td>
+                  <!-- <td>{$vo.activity_id}</td> -->
+                  <td>
+                    <img src="{$vo.user_account_avatar}" alt="" style="width:30px;height:30px;overflow:hidden;">
+                  </td>
+                  <td>{$vo.user_account_name}</td>
+                  <td>
+                    <a href="{$vo.post_url}" target="_blank">{$vo.post_url}</a>
+                  </td>
+                  <td>{$vo.zan}</td>
+                  <td>{$vo.status}</td>
+                  <td>{$vo.create_at}</td>
+                  
+                  <td class="operation-menu">
+                    {eq name="$vo.status" value="pending"}
+                      <div class="layui-btn-group">
+                        <a href="{:url('/admin/vc/activity/approved',['id'=>$vo.id])}" class="btn btn-primary btn-xs">通过</a>
+                        <a href="{:url('/admin/vc/activity/unapproved',['id'=>$vo.id])}" class="btn btn-primary btn-xs">驳回</a>
+                      </div>
+                    {/eq}
+                  </td>
+                </tr>
+                {/volist}
+              </tbody>
+            </table>
+            
+            <!-- <button class="layui-btn layui-btn-sm layui-btn-danger" lay-submit lay-filter="deleteAll">批量删除</button> -->
+            <!-- <button class="layui-btn layui-btn-sm" lay-submit lay-filter="admin">更新排序</button> -->
+          </form> 
+          <div style="text-align:center;">{$res->render()}</div> 
+          <!-- table end -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

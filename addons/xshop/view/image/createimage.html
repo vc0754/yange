@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>眼鸽</title>
+    <style>
+        body, html {
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-box {
+            width: 100%;
+            height: 150px;
+            margin: auto;
+        }
+
+        .btn-box .btn {
+            font-size: 42px;
+            width: 100%;
+            height: 150px;
+            line-height: 150px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        .content {
+            font-size: 36px;
+            width: 100%;
+            background-color: #f8f8f8;
+            border-radius: 10px;
+        }
+
+        .content img {
+            width: 100%;
+        }
+
+        .content .msgbox-title {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            color: #404245;
+            font-size: 50px;
+            line-height: 60px;
+        }
+
+        .content .msgbox-key {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            color: #909399;
+            font-size: 36px;
+            line-height: 60px;
+        }
+
+        .content .msgbox-list {
+            background-color: #FFFFFF;
+            margin: 30px 0;
+        }
+
+        .content .msgbox-list .order-item {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-bottom: 1px solid #E4E7ED;
+        }
+
+        .content .msgbox-list .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .content .msgbox-list .order-item .order-item-row {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .content .msgbox-list .order-item .order-item-row .lfet,
+        .content .msgbox-list .order-item .order-item-row .right {
+            width: 49%;
+        }
+
+        .content .msgbox-list .order-item .order-item-row .right {
+            text-align: right;
+        }
+
+        .content .msgbox-list .order-item .order-item-row .red {
+            color: #fa436a;
+            font-size: 42px;
+        }
+
+        .content .msgbox-list .order-item .order-item-row .light {
+            color: #909399;
+            font-size: 36px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="btn-box">
+        <div class="btn">长按保存图片</div>
+    </div>
+    <div class="content" id="qwe">
+
+    </div>
+    <div class="content" id="content">
+        <div class="msgbox-title">
+            <text>{$data.name}{$data.date}热搜数据</text>
+        </div>
+        {if condition="$data.kw NEQ ''"}
+        <div class="msgbox-key">
+            <text>关键词：{$data.kw}</text>
+        </div>
+        {/if}
+        <div class="msgbox-list">
+            {foreach name="list" item="vo"}
+            <div class="order-item">
+                <div class="order-item-row">
+                    <div class="left">{$key+1}.{$vo.word}</div>
+                    <div class="right">当日最高排名：<span class="red">{$vo.top_ranking}</span></div>
+                </div>
+                <div class="order-item-row">
+                    <div class="left light">热度：{$vo.hot_value}</div>
+                    {if condition="$vo.duration NEQ 0"}
+                    <div class="right light">累计在榜时间{$vo.duration}</div>
+                    {/if}
+                </div>
+                <div class="order-item-row">
+                    {if condition="$vo.first_time NEQ ''"}
+                    <div class="left light">上榜时间{$vo.first_time_text}</div>
+                    {/if}
+                </div>
+            </div>
+            {/foreach}
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
+
+<script src="__CDN__/assets/js/html2canvas.js" type="text/javascript" charset="utf-8"></script>
+<script src="__CDN__/assets/libs/jquery/dist/jquery.js"></script>
+<script language="javascript">
+    $(document).ready(function () {
+        html2canvas(document.getElementById('content'),{
+            scale: 0.8
+        }).then(function (canvas) {
+                var imgUri = canvas.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
+                var pHtml = "<img src=" + imgUri + " id='image_down'/>";
+                $('#qwe').html(pHtml);
+                document.getElementById('content').remove();
+        });
+
+    });
+
+
+</script>
